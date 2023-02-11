@@ -46,4 +46,7 @@ const checkDogs = function (dogsJulia, dogsKate) {
   });
 };
 
+console.log("----------------- Test 1 ---------------");
 checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+console.log("----------------- Test 2 ---------------");
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
