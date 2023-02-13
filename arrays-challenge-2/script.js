@@ -187,3 +187,6 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   else return mov;
 // }, movements[0]);
 // console.log(max);
+
+//////////////////////////////////////////////////////////////////
+// Challenge 2: Arrays (Map, Filter, Reduce)
