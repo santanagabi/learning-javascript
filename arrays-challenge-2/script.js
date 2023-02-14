@@ -98,10 +98,12 @@ const calcAverageHumanAge = function (ages) {
   const adultDogs = humanAges.filter(age => age >= 18);
 
   // Average
-  const average = adultDogs.reduce((acc, cur) => {
-    acc + cur / adultDogs.length;
-  }, 0);
+  const average = adultDogs.reduce(
+    (acc, cur) => acc + cur / adultDogs.length,
+    0
+  );
   console.log(average);
 };
 
 calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
