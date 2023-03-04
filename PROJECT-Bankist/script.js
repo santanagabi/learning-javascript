@@ -61,11 +61,13 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   // Deleting de old container
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `   
@@ -224,6 +226,13 @@ btnClose.addEventListener('click', function (e) {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -239,34 +248,66 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Flat and Flat Map
+// // Flat and Flat Map
 
-const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
-// flat () = o método retorna o array com todos os números
-console.log(arr.flat()); // flat = achatado
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// // flat () = o método retorna o array com todos os números
+// console.log(arr.flat()); // flat = achatado
 
-const arrDeep = [[[1, 2], 3], [[4, 5], 6], 7, 8];
-console.log(arrDeep.flat(2)); // 2 niveis de profundidade
+// const arrDeep = [[[1, 2], 3], [[4, 5], 6], 7, 8];
+// console.log(arrDeep.flat(2)); // 2 niveis de profundidade
 
-// Bank = balance of all movements od all accounts
-// obj inside array  and arrays inside the object
-const accountMovements = accounts.map(acc => acc.movements);
-console.log(accountMovements);
-const allMovements = accountMovements.flat();
-console.log(allMovements);
-// reduce = reduce a array elements into a single value
-const overalBalance1 = allMovements.reduce((acc, mov) => acc + mov, 0);
+// // Bank = balance of all movements od all accounts
+// // obj inside array  and arrays inside the object
+// const accountMovements = accounts.map(acc => acc.movements);
+// console.log(accountMovements);
+// const allMovements = accountMovements.flat();
+// console.log(allMovements);
+// // reduce = reduce a array elements into a single value
+// const overalBalance1 = allMovements.reduce((acc, mov) => acc + mov, 0);
+// // console.log(overalBalance);
+
+// // chaining
+// const overalBalance = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((acc, mov) => acc + mov, 0);
 // console.log(overalBalance);
 
-// chaining
-const overalBalance = accounts
-  .map(acc => acc.movements)
-  .flat()
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overalBalance);
+// // FlapMap =  flap + map methods
+// const overalBalance2 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(overalBalance2);
 
-// FlapMap =  flap + map methods
-const overalBalance2 = accounts
-  .flatMap(acc => acc.movements)
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overalBalance2);
+///////////////////////////////////////////////////////
+// Sorting arrays
+
+// Strings
+const owners = ['Jonas', 'Zach', 'Addam', 'Marta'];
+console.log(owners.sort());
+console.log(owners); // change the original array
+
+// Numbers
+console.log(movements);
+// console.log(movements.sort()); // sort by strings
+
+// return < 0, A, B (keeep order)
+// return > 0, B, A (switch order)
+
+// ascender
+// movements.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (a < b) return -1;
+// });
+movements.sort((a, b) => a - b);
+// if a > b = positive number
+console.log(movements);
+
+// descending
+// movements.sort((a, b) => {
+//   if (a > b) return -1;
+//   if (a < b) return 1;
+// });
+movements.sort((a, b) => b - a); // return b - a
+console.log(movements);
