@@ -73,22 +73,43 @@ const displayMovements = function (movements) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}</div>
+        <div class="movements__value">${mov}€</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
 
-displayMovements(account1.movements);
-
 // Reduce method = Calculate balance and display balance
-const calcPrintBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
-calcPrintBalance(account1.movements);
+// calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = acc.movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * acc.interestRate) / 100)
+    .filter((int, i, arr) => {
+      // console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+// calcDisplaySummary(account1.movements);
 
 // Computing Usernames
 const createUsernames = function (accs) {
@@ -101,6 +122,107 @@ const createUsernames = function (accs) {
   });
 };
 createUsernames(accounts);
+
+const updateUI = function (acc) {
+  // Display movements
+  displayMovements(acc.movements);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+};
+
+// Implementing login
+// Event handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // Preveting form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+// Transfer money
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
+// The FindIndex Method
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -115,75 +237,36 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Map
-// Converting euro to dollar
-// const eurToUsd = 1.1;
+// Flat and Flat Map
 
-// const movementsUSD = movements.map(mov => mov * eurToUsd);
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// flat () = o método retorna o array com todos os números
+console.log(arr.flat()); // flat = achatado
 
-// console.log(movements);
-// console.log(movementsUSD);
+const arrDeep = [[[1, 2], 3], [[4, 5], 6], 7, 8];
+console.log(arrDeep.flat(2)); // 2 niveis de profundidade
 
-// // // With forEach
-// // const movementsUSDfor = [];
-// // for (const mov of movements) movementsUSD.push(mov * eurToUsd);
-// // console.log(movementsUSD);
+// Bank = balance of all movements od all accounts
+// obj inside array  and arrays inside the object
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+const allMovements = accountMovements.flat();
+console.log(allMovements);
+// reduce = reduce a array elements into a single value
+const overalBalance1 = allMovements.reduce((acc, mov) => acc + mov, 0);
+// console.log(overalBalance);
 
-// const movementsDescripitions = movements.map(
-//   (mov, i) =>
-//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
-//       mov
-//     )}`
-// );
-// console.log(movementsDescripitions);
+// chaining
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// // The filter Method
-// const deposits = movements.filter(function (mov) {
-//   return mov > 0;
-// });
-
-// console.log(movements);
-// console.log(deposits);
-
-// const depositsFor = [];
-// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
-// console.log(depositsFor);
-
-// // small challenge
-// const withdrawals = movements.filter(mov => mov < 0);
-
-// console.log(withdrawals);
-
-///////////////////////////////////////////
-// Reduce method
-// Reduzir tds elementos de um array em apenas um valor
-// ex: somar tds os números de um array
-
-// console.log(movements);
-
-// // saldo total
-// // acc = acumulator => bola de neve => soma
-// // em cada loop => acumulator atualizado
-// // cur = objeto atual
-// // const balance = movements.reduce(function (acc, cur, i, arr) {
-// //   console.log(`Iteration ${i}: ${acc}`);
-// //   return acc + cur;
-// // }, 0); // 0 primeiro valor do acumulador no primeiro loop
-
-// const balance = movements.reduce((acc, cur) => acc + cur, 0); // 0 primeiro valor do acumulador no primeiro loop
-
-// console.log(balance);
-
-// // com for
-// let balance2 = 0;
-// for (const mov of movements) balance2 += mov;
-// console.log(balance2);
-
-// // Maximum value
-// const max = movements.reduce((acc, mov) => {
-//   if (acc > mov) return acc;
-//   else return mov;
-// }, movements[0]);
-// console.log(max);
+// FlapMap =  flap + map methods
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance2);
