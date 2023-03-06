@@ -1,0 +1,14 @@
+* {
+  background: rgb(156, 228, 247);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  color: blue;
+}
+
+.text {
+  display: flex;
+  justify-content: center;
+}
