@@ -61,5 +61,9 @@ console.log(dogs.filter(countRecommended));
 
 // 8.
 const dogsCopyArray = dogs.map((dog) => dog.recommendedFood);
-
 console.log(dogsCopyArray.sort());
+
+const dogsCopyArray2 = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+console.log(dogsCopyArray2);

@@ -1,27 +1,5 @@
 'use strict';
 
-// Map
-// Converting euro to dollar
-// const eurToUsd = 1.1;
-
-// const movementsUSD = movements.map(mov => mov * eurToUsd);
-
-// console.log(movements);
-// console.log(movementsUSD);
-
-// // // With forEach
-// // const movementsUSDfor = [];
-// // for (const mov of movements) movementsUSD.push(mov * eurToUsd);
-// // console.log(movementsUSD);
-
-// const movementsDescripitions = movements.map(
-//   (mov, i) =>
-//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
-//       mov
-//     )}`
-// );
-// console.log(movementsDescripitions);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // // The filter Method
 // const deposits = movements.filter(function (mov) {
@@ -92,16 +70,36 @@
 // § Data 1: [5, 2, 4, 1, 15, 8, 3]
 // § Data 2: [16, 6, 10, 5, 6, 1, 4]
 
-const calcAverageHumanAge = function (ages) {
-  const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+// const calcAverageHumanAge = function (ages) {
+//   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
 
-  const adultDogs = humanAges.filter(age => age >= 18);
+//   const adultDogs = humanAges.filter(age => age >= 18);
 
-  // Average
-  const average =
-    adultDogs.reduce((acc, cur) => acc + cur, 0) / adultDogs.length;
-  return average;
-};
+//   // Average
+//   const average =
+//     adultDogs.reduce((acc, cur) => acc + cur, 0) / adultDogs.length;
+//   return average;
+// };
+
+// const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+// const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+// console.log(avg1, avg2);
+
+///////////////////////////////////////////////////////////////////////////
+// Challenge 3
+
+// Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time
+// as an arrow function, and using chaining!
+// Test data:
+// § Data 1: [5, 2, 4, 1, 15, 8, 3]
+// § Data 2: [16, 6, 10, 5, 6, 1, 4]
+
+const calcAverageHumanAge = ages =>
+  ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(age => age >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
 
 const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
