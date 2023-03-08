@@ -50,10 +50,16 @@ console.log(dogrecommended);
 
 // 6.
 // current > (recommended * 0.90) && current < (recommended * 1.10)
-console.log(
-  dogs.some(
-    (dog) =>
-      dog.curFood > dog.recommendedFood * 0.9 &&
-      dog.curFood < dog.recommendedFood * 1.1
-  )
-);
+const countRecommended = (dog) =>
+  dog.curFood > dog.recommendedFood * 0.9 &&
+  dog.curFood < dog.recommendedFood * 1.1;
+
+console.log(dogs.some(countRecommended));
+
+// 7.
+console.log(dogs.filter(countRecommended));
+
+// 8.
+const dogsCopyArray = dogs.map((dog) => dog.recommendedFood);
+
+console.log(dogsCopyArray.sort());
