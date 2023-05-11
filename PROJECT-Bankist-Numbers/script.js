@@ -283,35 +283,138 @@ btnSort.addEventListener('click', function (e) {
 
 // 171 - Math and Rounding
 
-console.log(Math.sqrt(9));
-console.log(9 **( 1/2));
-console.log(8 **( 1/3));
+// console.log(Math.sqrt(9));
+// console.log(9 **( 1/2));
+// console.log(8 **( 1/3));
 
-console.log(Math.max(2, 4, '15'));
+// console.log(Math.max(2, 4, '15'));
 
-console.log(Math.min(2, 4, '15'));
+// console.log(Math.min(2, 4, '15'));
 
-console.log(Math.PI * Number.parseFloat('10px') ** 2);
+// console.log(Math.PI * Number.parseFloat('10px') ** 2);
 
-console.log(Math.trunc(Math.random() * 6) + 1);
+// console.log(Math.trunc(Math.random() * 6) + 1);
 
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min) + 1) + min;
+// const randomInt = (min, max) => Math.floor(Math.random() * (max - min) + 1) + min;
 
-console.log(randomInt(20,30));
+// console.log(randomInt(20,30));
 
-// Rounding integers
-console.log(Math.round(23.9));
+// // Rounding integers
+// console.log(Math.round(23.9));
 
-console.log(Math.ceil(23.3));
-console.log(Math.ceil(23.9));
+// console.log(Math.ceil(23.3));
+// console.log(Math.ceil(23.9));
 
-console.log(Math.floor(23.3));
-console.log(Math.floor('23.9'));
+// console.log(Math.floor(23.3));
+// console.log(Math.floor('23.9'));
 
-console.log(Math.trunc(-23.3));
-console.log(Math.floor(-23.3));
+// console.log(Math.trunc(-23.3));
+// console.log(Math.floor(-23.3));
 
-// Rounding decimals
-console.log((2.7).toFixed(0)); // --> return a string
-console.log((2.7).toFixed(3));
-console.log(+(2.7).toFixed(3));
+// // Rounding decimals
+// console.log((2.7).toFixed(0)); // --> return a string
+// console.log((2.7).toFixed(3));
+// console.log(+(2.7).toFixed(3));
+
+///////////////////////////////////////////////////////////////
+// 172.Remainder Operator
+// console.log(5 % 2);
+// console.log(8 % 3);
+
+// console.log(6 % 2); // even
+// console.log(7 % 2); // odd
+
+// const isEven = n => n % 2 == 0;
+
+// console.log(isEven(8));
+// console.log(isEven(11));
+
+// labelBalance.addEventListener('click', function() {
+//   [...document.querySelectorAll('.movements__row')].forEach(function(row, index) {
+//     if(index % 2 === 0) row.style.backgroundColor =  'orangered';
+
+//     if(index % 3 === 0) row.style.backgroundColor = 'blue';
+//   });
+// });
+
+///////////////////////////////////////////////////////////////////
+// 173. Numeric Separators
+
+// const diameter = 2876000000;
+// console.log(diameter);
+
+// const price = 345_99;
+// console.log(price);
+
+// const transferFree1 = 15_00;
+// const transferFree2 = 1_500;
+
+// console.log(Number('23_000'));
+
+
+//////////////////////////////////////////////////////
+// 174. Working with BigInt
+// console.log(2 ** 53 - 1);
+// console.log(Number.MAX_SAFE_INTEGER);
+// console.log(2 ** 53 + 4);
+// console.log(2 ** 53 + 4);
+
+// console.log(9304823984290384092848293280240n);
+// console.log(BigInt(930482398824));
+
+// // Operations
+// console.log(10000n + 1000n);
+// console.log(302490238092n * 1238172837182n);
+// // console.log(Math.sqrt(16n));
+
+// const huge = 128918391289n;
+// const number = 23;
+// console.log(huge * BigInt(number));
+
+// console.log(20n > 15);
+// console.log(2n === 2);
+// console.log(typeof 2n);
+// console.log(2n === '2');
+
+// console.log(huge + ' is REALLY big!!!!!' );
+
+// // Divisions
+// console.log(10n / 3n);
+
+//////////////////////////////////////////////////////////
+// 175. Creating Dates
+
+// Create a date
+// const now = new Date();
+// console.log(now);
+
+// console.log(new Date('Wed May 10 2023 16:21:27'));
+// console.log(new Date('December 24, 2015'));
+// console.log(new Date(account1.movementsDates[0]));
+
+// console.log(new Date(2037, 10, 19, 15, 23, 5));
+// console.log(new Date(2037, 10, 33));
+
+
+// console.log('----------');
+// console.log(new Date(0));
+
+// Working with dates
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future);
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime());
+
+console.log(new Date(2142267780000));
+
+console.log(Date.now());
+
+future.setFullYear(2040);
+console.log(future);
