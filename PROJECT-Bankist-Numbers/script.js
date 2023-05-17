@@ -81,6 +81,18 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
+const formatMovementDate = function(date) {
+  const calcdaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcdaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -90,10 +102,7 @@ const displayMovements = function (acc, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatMovementDate(date);
 
     const html = `
       <div class="movements__row">
@@ -450,3 +459,14 @@ btnSort.addEventListener('click', function (e) {
 // console.log(future);
 
 ////////////////////////
+
+// 177. Operations with Dates
+const future = new Date(2037, 10, 19, 15, 23);
+
+console.log(Number(future));
+console.log(+future);
+
+const calcdaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
+
+const days1 = calcdaysPassed(new Date(2037, 3, 4), new Date(2037, 3, 14));
+console.log(days1);
