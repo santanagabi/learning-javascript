@@ -21,9 +21,9 @@ const account1 = {
     '2020-01-28T09:15:04.904Z',
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2023-05-21T17:01:17.194Z',
+    '2023-05-17T23:36:17.929Z',
+    '2023-05-15T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -91,7 +91,7 @@ const formatMovementDate = function(date) {
   const month = `${date.getMonth() + 1}`.padStart(2, 0);
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
-};
+}
 
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -465,8 +465,6 @@ const future = new Date(2037, 10, 19, 15, 23);
 
 console.log(Number(future));
 console.log(+future);
-
-const calcdaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
 
 const days1 = calcdaysPassed(new Date(2037, 3, 4), new Date(2037, 3, 14));
 console.log(days1);
