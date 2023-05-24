@@ -184,6 +184,51 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+// const startLogOutTimer = function() {
+//   // Set time to 5 minutes
+//   let time = 100;
+
+//   // Call the timer every second
+//   setInterval(function() {
+//     //  In each call, print the remaining time to UI
+//     labelTimer.textContent = time;
+
+//     //Decrease 1s
+//     time--;
+
+//     // When 0 seconds, stop timer and log out user
+//   }, 1000);
+// };
+
+
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    // In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = "Log in to get started";
+      containerApp.style.opacity = 0;
+    }
+
+    // Decrease 1s
+    time--;
+  };
+
+  // Set time to 5 minutes
+  let time = 120;
+
+  // Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
@@ -234,6 +279,11 @@ btnLogin.addEventListener('click', function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+    // startLogOutTimer();
+      // Reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -520,24 +570,28 @@ btnSort.addEventListener('click', function (e) {
 //////////////////////////////////////////////////////////////////////
 // 180. Timers: setTimeOut and setInterval
 
-const ingredients = ['olives', 'tomato'];
+// const ingredients = ['olives', 'tomato'];
 
-// Async => SetTimeout
-const pizzaTimer = setTimeout((ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`),
-  3000, 
-  ...ingredients
-);
-console.log('Waiting....');
+// // Async => SetTimeout
+// const pizzaTimer = setTimeout((ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`),
+//   3000, 
+//   ...ingredients
+// );
+// console.log('Waiting....');
 
-if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
+// if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
 
-// setInterval 
-setInterval (function () {
-  const now = new Date();
-  // console.log(now);
-  const minutes = now.getMinutes();
-  const hours = now.getHours();
-  const seconds = now.getSeconds();
+// // setInterval 
+// setInterval (function () {
+//   const now = new Date();
+//   // console.log(now);
+//   const minutes = now.getMinutes();
+//   const hours = now.getHours();
+//   const seconds = now.getSeconds();
 
-  // console.log(`${hours}:${minutes}:${seconds}`);
-}, 3000);
+//   // console.log(`${hours}:${minutes}:${seconds}`);
+// }, 3000);
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+// 181. Implementing a Countdown timer
