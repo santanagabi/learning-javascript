@@ -274,13 +274,15 @@ btnLoan.addEventListener('click', function (e) {
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      currentAccount.movements.push(amount);
 
-    // Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
@@ -500,18 +502,42 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////////////////////
 // 178. Internationalizing Dates
 
-const num = 388889.23;
+// const num = 388889.23;
 
-const options = {
-  style: 'currency',
-  unit: 'celsius',
-  currency: 'EUR',
-  // useGrouping: false,
-}
+// const options = {
+//   style: 'currency',
+//   unit: 'celsius',
+//   currency: 'EUR',
+//   // useGrouping: false,
+// }
 
-console.log('US:          ', new Intl.NumberFormat('en-US', options).format(num));
-console.log('Germany:     ', new Intl.NumberFormat('de-DE', options).format(num));
-console.log('Syria:       ', new Intl.NumberFormat('ar-SY', options).format(num));
-console.log(navigator.language      , new Intl.NumberFormat(navigator.language, options).format(num));
+// console.log('US:          ', new Intl.NumberFormat('en-US', options).format(num));
+// console.log('Germany:     ', new Intl.NumberFormat('de-DE', options).format(num));
+// console.log('Syria:       ', new Intl.NumberFormat('ar-SY', options).format(num));
+// console.log(navigator.language      , new Intl.NumberFormat(navigator.language, options).format(num));
 
 
+//////////////////////////////////////////////////////////////////////
+// 180. Timers: setTimeOut and setInterval
+
+const ingredients = ['olives', 'tomato'];
+
+// Async => SetTimeout
+const pizzaTimer = setTimeout((ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`),
+  3000, 
+  ...ingredients
+);
+console.log('Waiting....');
+
+if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
+
+// setInterval 
+setInterval (function () {
+  const now = new Date();
+  // console.log(now);
+  const minutes = now.getMinutes();
+  const hours = now.getHours();
+  const seconds = now.getSeconds();
+
+  // console.log(`${hours}:${minutes}:${seconds}`);
+}, 3000);
