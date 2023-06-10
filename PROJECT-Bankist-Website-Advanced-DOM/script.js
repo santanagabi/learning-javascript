@@ -32,11 +32,12 @@ document.addEventListener('keydown', function (e) {
 });
 
 /////////////////////////////////////////////////
+// 186. Selecting, creating and deleting elements
 console.log(document.documentElement);
 console.log(document.head);
 console.log(document.body);
 
-document.querySelector('.header');
+const header = document.querySelector('.header');
 const allSections = document.querySelectorAll('.section');
 console.log(allSections);
 
@@ -45,3 +46,23 @@ const allButtons = document.getElementsByTagName('button');
 console.log(allButtons);
 
 console.log( document.getElementsByClassName('btn'));
+
+// Creating and inseting elements
+// .insertAdjacentHTML
+
+const message = document.createElement('div');
+message.classList.add('cookie-message');
+message.textContent = 'We use cookied for improved funcionality and analytics.';
+message.innerHTML = 'We use cookied for improved funcionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
+
+// Inseting the element into the DOM 
+// header.prepend(message); // (first child)
+header.append(message); // (last child)
+// header.append(message.cloneNode(true));
+// header.before(message);
+// header.after(message);
+
+// Delete elements
+document.querySelector('.btn--close-cookie').addEventListener('click', function() {
+  message.remove();
+});
