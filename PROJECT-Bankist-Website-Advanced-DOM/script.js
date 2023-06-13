@@ -127,11 +127,11 @@ const section1 = document.querySelector('#section--1');
 
 btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
+  // console.log(s1coords);
 
-  console.log(e.target.getBoundingClientRect());
+  // console.log(e.target.getBoundingClientRect());
 
-  console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+  // console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
 
   // Scrolling
   // window.scrollTo(
@@ -147,3 +147,20 @@ btnScrollTo.addEventListener('click', function (e) {
 
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+////////////////////////////////////////////////////////
+// 189. types of events and event handlers
+
+const h1 = document.querySelector('h1');
+
+const alertH1 = function (e) {
+  alert('addEventListener: Great! You are reading the heading : D');
+};
+
+h1.addEventListener('mouseenter', alertH1);
+
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+
+// h1.onmouseenter = function (e) {
+//   alert('addEventListener: Great! You are reading the heading : ))');
+// };
