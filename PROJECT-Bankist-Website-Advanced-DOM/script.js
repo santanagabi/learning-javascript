@@ -7,6 +7,12 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 // Button learn more
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+// Tabbed component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+// Nav links + logo
+const nav = document.querySelector('.nav');
 
 ///////////////////////////////////////
 // Modal window
@@ -252,4 +258,73 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 // });
 
 ///////////////////////////////////////////////////////////////////////////////
-// 192. Event Delegation: implementing page navigation
+// 194. Building a Tabbed Component
+
+// // Adding an event for each button
+// tabs.forEach(t => t.addEventListener('click', () => {
+//   console.log('TAB');
+// }))
+
+// Using event delegation
+// We should attach the event handler on the common parent element of the elements we are interested in
+// using closest
+
+tabsContainer.addEventListener('click', function (e) {
+  // const clicked = e.target.parentElement;
+  const clicked = e.target.closest('.operations__tab');
+  // console.log(clicked);
+
+  if (!clicked) return;
+
+  // Remove active classes
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  tabsContent.forEach(tab =>
+    tab.classList.remove('operations__content--active')
+  );
+
+  // Activate tab
+  // Guard clause
+  clicked.classList.add('operations__tab--active');
+
+  // Activate content area
+  // console.log('clicked.dataset.tab', clicked.dataset.tab);
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 195. Passing Arguments to Event Handlers
+
+// When hovering over one of the links, the rest disappears
+
+// Menu fade animation
+const handleHover = function (e, opacity) {
+  // console.log(this, e.currentTarget);
+  // e.currentTarget = points to exact html element that is triggering the event
+
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target; // `e.target` = HTML element where the "mouseover" ocurred, for example, `<a> </a>`
+    // console.log(e.target)
+
+    // selecting all other links
+    //  i go to the parent ---> link.closest('.nav') and select all children ---> .querySelector('.nav__link')
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el != link) el.style.opacity = this;
+    });
+
+    logo.style.opacity = this;
+  }
+};
+
+// Passing "argument" into handler
+// The term "mouseover" is similar to "mouseenter," but "mouseenter" does not bubble
+// mouseover ---> mouseout
+// bind(): returns a new function and has the value of "this" inside
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+
+// undoing the "mouseouver"
+nav.addEventListener('mouseout', handleHover.bind(1));
