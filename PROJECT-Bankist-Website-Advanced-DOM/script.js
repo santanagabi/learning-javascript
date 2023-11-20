@@ -368,7 +368,7 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 // observer.observe(section1);
 
 const header = document.querySelector('.header');
-const navHeight = nav.getBoundingClientRect().height
+const navHeight = nav.getBoundingClientRect().height;
 
 const stickyNav = function (entries) {
   const [entry] = entries; // using destructuring, extract the first element from 'entries' and store it in the 'entry' variable as 'entries[0]'
@@ -380,6 +380,31 @@ const stickyNav = function (entries) {
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
   threshold: 0,
-  rootMargin: `-${navHeight}px` // 90px that will be applied outside of our element, in this case, the header
+  rootMargin: `-${navHeight}px`, // 90px that will be applied outside of our element, in this case, the header
 });
+
 headerObserver.observe(header);
+
+//  Reveal sections
+const allSections = document.querySelectorAll('.section');
+
+const revelSection = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  // podemos usar target para descobrir qual a section exata que aparece no viewport
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target)
+};
+
+const sectionObserver = new IntersectionObserver(revelSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});

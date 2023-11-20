@@ -41,6 +41,7 @@ body {
   transition: transform 1s, opacity 1s;
 }
 
+/*  essa classe irá "sumir" com as sections, devo remover essa classe quando chego na section */
 .section--hidden {
   opacity: 0;
   transform: translateY(8rem);
