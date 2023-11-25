@@ -405,7 +405,8 @@ const sectionObserver = new IntersectionObserver(revelSection, {
 
 allSections.forEach(function (section) {
   sectionObserver.observe(section);
-  section.classList.add('section--hidden');
+  // TODO: comentei aqui
+  // section.classList.add('section--hidden');
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -439,3 +440,54 @@ imgTargets.forEach(img => imgObserver.observe(img));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 200. Building a Slider Component: Part 1
+
+// Slider
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+// const slider = document.querySelector('.slider');
+// slider.style.transform = 'scale(0.4) translateX(-800px)';
+// slider.style.overflow = 'visible';
+
+// slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
+//  0%. 100%, 200%, 300%
+
+// a função aceita um parâmetro slide, portanto ao chamar a função deve ser fornecido o valor de slide
+const goToSlide = function (slide) {
+  slides.forEach(
+    // função de callback
+    // s = slide no array de slides e i = indice do slide em relação ao slide alvo
+    // translateX calcula a translação horizontal para cada slide
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+};
+
+goToSlide(0);
+
+// Next slide
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+
+  goToSlide(curSlide);
+};
+
+const prevSlide = function () {
+  if (curSlide === 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
+  }
+
+  goToSlide(curSlide);
+};
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
