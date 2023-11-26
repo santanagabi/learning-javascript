@@ -415,7 +415,7 @@ const imgTargets = document.querySelectorAll('img[data-src]');
 
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
+  // console.log(entry);
 
   if (!entry.isIntersecting) return;
 
@@ -445,6 +445,7 @@ imgTargets.forEach(img => imgObserver.observe(img));
 const slides = document.querySelectorAll('.slide');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
+const dotContainer = document.querySelector('.dots');
 
 let curSlide = 0;
 const maxSlide = slides.length;
@@ -456,12 +457,39 @@ const maxSlide = slides.length;
 // slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
 //  0%. 100%, 200%, 300%
 
+const createDots = function () {
+  slides.forEach(function (_, i) {
+    //  criando html
+    dotContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+
+//  chamando createDots
+createDots();
+
+const activateDot = function (slide) {
+  //  primeiro removemos a classe ativa de todos e depois adicionamos no que queremos
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach(dot => dot.classList.remove('dots__dot--active'));
+
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add('dots__dot--active');
+};
+
+//  adicionando a classe active quando incializo
+activateDot(0);
+
 // a função aceita um parâmetro slide, portanto ao chamar a função deve ser fornecido o valor de slide
 const goToSlide = function (slide) {
   slides.forEach(
     // função de callback
     // s = slide no array de slides e i = indice do slide em relação ao slide alvo
-    // translateX calcula a translação horizontal para cada slide
+    // translateX calcula a translação horizontal para cada slide]
     (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
   );
 };
@@ -477,6 +505,7 @@ const nextSlide = function () {
   }
 
   goToSlide(curSlide);
+  activateDot(curSlide);
 };
 
 const prevSlide = function () {
@@ -487,7 +516,28 @@ const prevSlide = function () {
   }
 
   goToSlide(curSlide);
+  activateDot(curSlide);
 };
 
 btnRight.addEventListener('click', nextSlide);
 btnLeft.addEventListener('click', prevSlide);
+
+////////////////////////////////////////////////////////////////////////////////////
+// 201. Building a Slider Component: Part 2
+
+document.addEventListener('keydown', function (e) {
+  //  quando clica na seta na esquerda ou direita também têm como mover os slides
+  if (e.key === 'ArrowLeft') prevSlide();
+  e.key === 'ArrowRight' && prevSlide();
+});
+
+//  event delegation
+dotContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    // console.log('DOTT');
+    const { slide } = e.target.dataset;
+
+    goToSlide(slide);
+    activateDot(slide);
+  }
+});
