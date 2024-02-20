@@ -21,6 +21,7 @@ module.exports = {
     obterPessoas
 }
 
+// 
 //  funcao principal para usar a funcao obterPessoas
 // async function fetchData() {
 //     try {
