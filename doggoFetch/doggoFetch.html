@@ -167,6 +167,7 @@
         // attach a "click" event listener with the buttonHandler function,
         // and append the button as a child of the options element
         choicesArray.forEach(function (choice) {
+            //  create a button element
             const button = document.createElement("button");
 
             button.name = choice;
@@ -174,7 +175,9 @@
             button.textContent = choice;
 
             // When the button is clicked -> call the buttonHandler function
-            button.addEventListener("click", buttonHandler);            
+            button.addEventListener("click", buttonHandler);
+
+            // Append the button as a child of the options element
             options.appendChild(button);
         })       
     }
@@ -200,17 +203,19 @@
         
         const doggoImgUrl = await fetchMessage(RANDOM_IMG_ENDPOINT);
         const correctBreed = getBreedFromURL(doggoImgUrl);
-        const breedChoices = getMultipleChoices(3, correctBreed, BREEDS);
+        const breedChoices = getMultipleChoices(3, await correctBreed, BREEDS);
 
-        return [doggoImgUrl, correctBreed, breedChoices];
+        return [doggoImgUrl, await correctBreed, breedChoices];
     }
 
     // TODO 5
     // Asynchronously call the loadQuizData() function,     
-    // Then call renderQuiz() with the returned imageUrl, correctAnswer, and choices 
-    
-    
-
+    // Then call renderQuiz() with the returned imageUrl, correctAnswer, and choices
+    await loadQuizData()
+        .then(([imageUrl, correctAnswer, choices])=> {
+            console.log(correctAnswer);
+            renderQuiz(imageUrl, correctAnswer, choices);        
+        })
 
   </script>
 
